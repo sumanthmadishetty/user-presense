@@ -5,7 +5,6 @@ import express from 'express';
 import passport from 'passport';
 
 import models, { connectDb } from './models';
-import routes from './routes';
 
 const app = express();
 
@@ -21,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(async (req, res, next) => {
   req.context = {
     models,
-    me: await models.User.findByLogin('rwieruch')
+    me: await models.User.findByLogin('rwieruch'),
   };
   next();
 });
@@ -37,6 +36,6 @@ require('./routes/findUser')(app);
 
 connectDb().then(async () => {
   app.listen(process.env.PORT, () =>
-    console.log(`Example app listening on port ${process.env.PORT}!`)
+    console.log(`Example app listening on port ${process.env.PORT}!`),
   );
 });
