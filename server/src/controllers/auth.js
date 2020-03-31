@@ -5,15 +5,13 @@ export function login(req, res, next) {
   passport.authenticate('login', async (err, user, info) => {
     try {
       if (err || !user) {
-        console.log('user ledu', user);
-        const error = new Error('An Error occurred');
-        return next(error);
+        res.status(401).json({ error: 'username not found' });
       }
       req.login(user, { session: false }, async (error) => {
         if (error) return next(error);
         const body = { _id: user._id, username: user.username };
-        const token = await generateJWTToken(body);
-        return res.json({ token }).status(200);
+        const { success, token } = await generateJWTToken(body);
+        return res.json({ success, token }).status(200);
       });
     } catch (error) {
       return next(error);
