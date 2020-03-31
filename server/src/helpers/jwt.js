@@ -25,4 +25,14 @@ function generateJWTToken(payload = {}) {
   });
 }
 
-export { generateJWTToken };
+function verifyJWT(token) {
+  try {
+    const userDetails = jwt.verify(token, privateKey);
+    return { success: true, userDetails };
+  } catch (err) {
+    return { success: false, error: err };
+  }
+  // });
+}
+
+export { generateJWTToken, verifyJWT };

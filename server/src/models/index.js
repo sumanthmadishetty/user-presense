@@ -1,3 +1,4 @@
 import User from './user';
+import VisitHistory from './visitHistory';
 
-export default { User };
+export default { User, VisitHistory };

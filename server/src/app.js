@@ -5,6 +5,7 @@ import loadExpress from './initializers/express';
 import Logger from './initializers/logger';
 import chalk from 'chalk';
 import config from './config';
+import initializeSocket from './initializers/socket';
 
 const app = express();
 
@@ -14,7 +15,8 @@ async function startServer() {
   try {
     await connectDB();
     loadExpress(app);
-    app.listen(config.port, () => {
+
+    const server = app.listen(config.port, () => {
       Logger.info(
         chalk.yellowBright('Connected to database successfully.'),
       );
@@ -29,6 +31,7 @@ async function startServer() {
         `),
       );
     });
+    initializeSocket(server);
   } catch (error) {
     Logger.error(chalk.red(error));
     process.exit(1);
