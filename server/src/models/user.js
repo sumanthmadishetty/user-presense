@@ -13,7 +13,9 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
 });
 
-userSchema.plugin(uniqueValidator);
+userSchema.plugin(uniqueValidator, {
+  message: 'Username already taken!',
+});
 
 userSchema.pre('save', async function (next) {
   const user = this;

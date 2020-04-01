@@ -3,7 +3,6 @@ import { Navigator, ErrorBoundary } from 'components';
 import './App.css';
 
 function App() {
-  console.log('asdasd', Navigator);
   return (
     <div className="App">
       <ErrorBoundary>

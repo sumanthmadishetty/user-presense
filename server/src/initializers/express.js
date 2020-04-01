@@ -39,7 +39,7 @@ export default function (app) {
   app.use(
     passport.authenticate('jwt', {
       session: false,
-      failureRedirect: '/401',
+      // failureRedirect: '/401',
     }),
   );
 
