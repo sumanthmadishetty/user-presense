@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 const VERIFY = `${process.env.REACT_APP_SERVER_URL}user/verify`;
 const VISIT_HISTORY = `${process.env.REACT_APP_SERVER_URL}visit-histories`;
@@ -8,7 +7,7 @@ const LOGIN_ENDPOINT = `${process.env.REACT_APP_SERVER_URL}user/login`;
 const USERS_LIST = `${process.env.REACT_APP_SERVER_URL}users`;
 
 const config = {
-  headers: { Authorization: `Bearer ${Cookies.get('token')}` }
+  headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
 };
 
 export function verifyUser() {
@@ -58,7 +57,7 @@ export function login(apiParams) {
     .post(LOGIN_ENDPOINT, apiParams)
     .then(({ status, data } = {}) => {
       if (status === 200 && data) {
-        Cookies.set('token', data.token, { expires: 1 });
+        localStorage.setItem('token', data.token);
         return { success: true, data };
       }
       return { success: false };

@@ -1,18 +1,17 @@
 import React, { useState, useContext } from 'react';
 import PageCenterWrapper from 'components/PageCenterWrapper';
-import { TextField, Button } from '@material-ui/core';
-import { Link, navigate } from '@reach/router';
-import { registerUser } from './actions';
+import PropTypes from 'prop-types';
+import { Button } from '@material-ui/core';
+import { Link, navigate, Redirect } from '@reach/router';
+import { registerUser } from 'actions/API';
 import useInput from 'customHooks/useInput';
 import { UserDataContext } from 'context/UserDataContext';
 
-const INTIAL_VALUES = {
-  username: '',
-  password: '',
-  confirmPassword: ''
+Register.propTypes = {
+  path: PropTypes.string.isRequired
 };
 
-export default function Register() {
+export default function Register({ path }) {
   const [UserNameInput, username] = useInput({
     label: 'Username'
   });
@@ -26,7 +25,11 @@ export default function Register() {
     callBackOnChange: handleChangeConfirmPassword
   });
   const [isValidating, setValidating] = useState(false);
-  const { displayFlash } = useContext(UserDataContext);
+  const { displayFlash, isAuthenticated } = useContext(UserDataContext);
+
+  if (isAuthenticated) {
+    return <Redirect from={path} to="/" noThrow />;
+  }
 
   return (
     <PageCenterWrapper>

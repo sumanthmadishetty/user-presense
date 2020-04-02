@@ -17,6 +17,8 @@ passport.use(
     async (username, password, done) => {
       try {
         const user = await User.findOne({ username });
+        // .select('+password')
+        // .exec();
         if (!user) {
           return done(null, false, { message: 'User not found' });
         }

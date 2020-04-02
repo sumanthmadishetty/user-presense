@@ -1,12 +1,17 @@
 import React, { useContext } from 'react';
 import { Button } from '@material-ui/core';
-import { Link, navigate } from '@reach/router';
+import { Link, navigate, Redirect } from '@reach/router';
 import PageCenterWrapper from 'components/PageCenterWrapper';
 import useInput from 'customHooks/useInput';
 import { UserDataContext } from 'context/UserDataContext';
-import { login } from './actions';
+import { login } from 'actions/API';
+import PropTypes from 'prop-types';
 
-export default function Login(props) {
+Login.propTypes = {
+  path: PropTypes.string.isRequired
+};
+
+export default function Login({ path }) {
   // const [formValues, setFormValues] = useState({ username: '', password: '' });
   const [UserNameInput, username] = useInput({
     label: 'Username'
@@ -15,7 +20,11 @@ export default function Login(props) {
     label: 'Password',
     type: 'password'
   });
-  const { displayFlash, handleUserLogin } = useContext(UserDataContext);
+  const { displayFlash, handleUserLogin, isAuthenticated } = useContext(UserDataContext);
+
+  if (isAuthenticated) {
+    return <Redirect from={path} to="/" noThrow />;
+  }
 
   return (
     <PageCenterWrapper>
@@ -45,6 +54,7 @@ export default function Login(props) {
     e.preventDefault();
     login({ username, password }).then(({ success, data, error }) => {
       if (success) {
+        localStorage.setItem('token', data.token);
         handleUserLogin(data.user);
         return navigate('/');
       }

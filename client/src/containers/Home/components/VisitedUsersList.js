@@ -9,7 +9,7 @@ import {
   TableRow,
   Typography
 } from '@material-ui/core';
-import { getVisitHistories } from 'actions/userActions';
+import { getVisitHistories } from 'actions/API';
 import { UserDataContext } from 'context/UserDataContext';
 
 export default function VisitedUsersList({ activeUsers }) {
@@ -25,7 +25,7 @@ export default function VisitedUsersList({ activeUsers }) {
       }
       displayFlash({ message: 'Unable to fetch users list' });
     });
-  }, [activeUsers]);
+  }, [activeUsers, displayFlash]);
 
   function renderTableRow({ _id, user = {}, isActive, lastActive } = {}) {
     return (
@@ -34,7 +34,7 @@ export default function VisitedUsersList({ activeUsers }) {
           <Typography>
             {user._id === currentUserId ? (
               <>
-                <>{`${user.username}`}</>
+                <span style={{ marginRight: '10px' }}>{`${user.username}`}</span>
                 <Typography variant="caption" color="primary">
                   (Its you)
                 </Typography>

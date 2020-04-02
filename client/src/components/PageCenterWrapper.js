@@ -1,5 +1,14 @@
 import React from 'react';
 import { Container, Paper } from '@material-ui/core';
+import PropTypes from 'prop-types';
+
+PageCenterWrapper.propTypes = {
+  children: PropTypes.arrayOf(PropTypes.node)
+};
+
+PageCenterWrapper.defaultProps = {
+  children: []
+};
 
 export default function PageCenterWrapper({ children }) {
   return (

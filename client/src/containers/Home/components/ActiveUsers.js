@@ -1,23 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
-import {
-  Table,
-  TableHead,
-  TableCell,
-  TableBody,
-  TableRow,
-  Fab,
-  Tooltip,
-  Menu,
-  IconButton,
-  MenuItem,
-  Typography
-} from '@material-ui/core';
+import React, { useState } from 'react';
+import { Tooltip, IconButton, MenuItem, Typography } from '@material-ui/core';
+import MenuList from 'components/MenuList';
 
 export default function ActiveUsers({ usersList }) {
   if (!(usersList && usersList.length)) {
     return (
       <div style={{ display: 'flex', marginLeft: 'auto', float: 'right', marginRight: '50px' }}>
-        No Active users other than current user
+        No one other than you is online
       </div>
     );
   }
@@ -43,13 +32,7 @@ function CustomFab1({ extraUsers }) {
   if (extraUsers && extraUsers.length) {
     return (
       <>
-        <IconButton
-          // className="customFab"
-          style={{ padding: '0px' }}
-          size="large"
-          onClick={toggleMenu}
-          color="inherit"
-        >
+        <IconButton style={{ padding: '0px' }} size="large" onClick={toggleMenu} color="inherit">
           <div className="customFab" style={{ backgroundColor: '#188038' }}>
             <div>
               <Typography style={{ textTransform: 'uppercase' }}>{`+ ${
@@ -58,22 +41,7 @@ function CustomFab1({ extraUsers }) {
             </div>
           </div>
         </IconButton>
-        <Menu
-          id="menu-appbar"
-          getContentAnchorEl={null}
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right'
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right'
-          }}
-          open={open}
-          onClose={toggleMenu}
-        >
+        <MenuList open={open} toggleMenu={toggleMenu} anchorEl={anchorEl}>
           {extraUsers.map((item, index) => {
             return (
               <MenuItem key={index}>
@@ -86,7 +54,7 @@ function CustomFab1({ extraUsers }) {
               </MenuItem>
             );
           })}
-        </Menu>
+        </MenuList>
       </>
     );
   }

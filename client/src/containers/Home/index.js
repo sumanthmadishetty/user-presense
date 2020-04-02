@@ -1,50 +1,31 @@
-import React, { useEffect, useState, useContext } from 'react';
-import {
-  Table,
-  TableHead,
-  TableCell,
-  TableBody,
-  TableRow,
-  Fab,
-  Tooltip,
-  Menu,
-  IconButton,
-  MenuItem,
-  Typography
-} from '@material-ui/core';
-import socketIOClient from 'socket.io-client';
-import Cookies from 'js-cookie';
-import { fetchUserDetails } from './actions';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { UserDataContext } from 'context/UserDataContext';
+import initializeSocket from 'helpers/socket';
 import ActiveUsers from './components/ActiveUsers';
 import VisitedUsersList from './components/VisitedUsersList';
-
-const mockData = new Array(20).fill('12').map((d, i) => ({ _id: i, username: `User - ${i}` }));
 
 export default function Home() {
   const [data, setData] = useState([]);
   const { userData } = useContext(UserDataContext);
-  const token = Cookies.get('token');
+
+  const handleNewVisitor = useCallback(
+    list => {
+      const vistorData = list.filter(u => u.user._id !== userData._id);
+      setData(vistorData.map(v => v.user));
+    },
+    [userData]
+  );
 
   useEffect(() => {
-    const socket = socketIOClient(process.env.REACT_APP_SERVER_URL, {
-      transports: ['websocket'],
-      query: { token }
-    });
+    const socket = initializeSocket();
     socket.on('newVisitor', handleNewVisitor);
     return () => {
-      console.log('unmounting');
-      socket.disconnect();
+      socket.close();
     };
-  }, []);
-
-  function handleNewVisitor(list) {
-    const vistorData = list.filter(u => u.user._id !== userData._id);
-    setData(vistorData.map(v => v.user));
-  }
+  }, [handleNewVisitor]);
 
   return (
-    <div id="asd">
+    <div>
       <div
         style={{
           display: 'flex',

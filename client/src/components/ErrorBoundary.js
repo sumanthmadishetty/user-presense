@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class ErrorBoundary extends Component {
   state = { hasError: false };
@@ -18,6 +19,8 @@ export default class ErrorBoundary extends Component {
         <div>
           <h1>Something went wrong.</h1>
           <div
+            role="button"
+            tabIndex="-1"
             style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
             onClick={() => window.location.reload()}
           >
@@ -30,3 +33,11 @@ export default class ErrorBoundary extends Component {
     return this.props.children;
   }
 }
+
+ErrorBoundary.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)])
+};
+
+ErrorBoundary.defaultProps = {
+  children: []
+};
