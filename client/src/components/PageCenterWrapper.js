@@ -11,7 +11,7 @@ export default function PageCenterWrapper({ children }) {
           <Paper
             elevation={3}
             style={{
-              padding: '25px',
+              padding: '10px',
               justifyContent: 'center',
               alignItems: 'center',
               display: 'flex',

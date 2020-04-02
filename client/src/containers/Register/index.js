@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PageCenterWrapper from 'components/PageCenterWrapper';
 import { TextField, Button } from '@material-ui/core';
 import { Link, navigate } from '@reach/router';
 import { registerUser } from './actions';
+import useInput from 'customHooks/useInput';
+import { UserDataContext } from 'context/UserDataContext';
 
 const INTIAL_VALUES = {
   username: '',
@@ -11,78 +13,68 @@ const INTIAL_VALUES = {
 };
 
 export default function Register() {
-  const [formValues, setFormValues] = useState(INTIAL_VALUES);
-  const [showFeedbackFor, setFeedbackFor] = useState('');
+  const [UserNameInput, username] = useInput({
+    label: 'Username'
+  });
+  const [PasswordInput, password] = useInput({
+    label: 'Password',
+    type: 'password'
+  });
+  const [ConfirmPassword, confirmPassword, , setErrorForConfirmPassword] = useInput({
+    label: 'Confirm Password',
+    type: 'password',
+    callBackOnChange: handleChangeConfirmPassword
+  });
+  const [isValidating, setValidating] = useState(false);
+  const { displayFlash } = useContext(UserDataContext);
 
   return (
     <PageCenterWrapper>
-      <span>Please login to continue...</span>
-      <div
-        style={{
-          marginTop: '30px',
-          display: 'flex',
-          flexDirection: 'column',
-          maxWidth: '250px',
-          justifyContent: 'center'
-        }}
-      >
-        <TextField
-          onChange={onChangeFormValues}
-          id="username"
-          // error={feedbackValues.username}
-          label="Username"
-          style={{ marginBottom: '10px' }}
-          // helperText={feedbackValues.username}
-        />
-        <TextField
-          onChange={onChangeFormValues}
-          error={showFeedbackFor === 'password'}
-          id="password"
-          label="Password"
-          type="password"
-          helperText={
-            showFeedbackFor === 'password' ? 'Password And confirmpassword should match' : ''
-          }
-        />
-        <TextField
-          onChange={onChangeFormValues}
-          error={showFeedbackFor === 'password'}
-          id="confirmPassword"
-          label="Confirm Password"
-          type="password"
-          helperText={
-            showFeedbackFor === 'password' ? 'Password And confirmpassword should match' : ''
-          }
-        />
-        <Button
-          onClick={handleSubmitForm}
-          type="submit"
-          style={{ marginTop: '20px' }}
-          variant="contained"
-          color="primary"
-        >
-          Register
-        </Button>
+      <span>Please Register here</span>
+      <div className="loginInputsWrapper">
+        <form onSubmit={handleSubmitForm}>
+          {UserNameInput}
+          {PasswordInput}
+          {ConfirmPassword}
+          <Button
+            onClick={handleSubmitForm}
+            type="submit"
+            style={{ marginTop: '20px' }}
+            variant="contained"
+            color="primary"
+          >
+            Register
+          </Button>
+        </form>
       </div>
       <div style={{ marginTop: '30px' }}>
-        <Link to="/login">Click here to Login</Link>
+        <Link to="/login">Already Have a account? Click here to Login</Link>
       </div>
     </PageCenterWrapper>
   );
 
-  function onChangeFormValues({ target: { value, id } }) {
-    setFormValues(fv => ({ ...fv, [id]: value }));
+  function handleChangeConfirmPassword(value) {
+    if (isValidating) {
+      if (password === value) {
+        setErrorForConfirmPassword('');
+      }
+    }
   }
 
-  function handleSubmitForm() {
-    if (formValues.password !== formValues.confirmPassword) {
-      return setFeedbackFor('password');
+  function handleSubmitForm(e) {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setErrorForConfirmPassword('Passwords doesnot match');
+      return setValidating(true);
     }
-    registerUser(formValues).then(({ success, data }) => {
+
+    return registerUser({ username, password }).then(({ success, data, error }) => {
       if (success) {
-        alert('User created Please login to continue');
-        navigate('/login');
+        displayFlash({ message: ' User created successfully, Please login to continue ' });
+        return navigate('/login');
       }
+
+      return displayFlash({ message: error });
     });
   }
 }

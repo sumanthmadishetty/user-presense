@@ -1,12 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-/* eslint-disable import/prefer-default-export */
-
 const LOGIN_ENDPOINT = `${process.env.REACT_APP_SERVER_URL}user/login`;
 
 export function login(apiParams) {
-  //   renderToast();
   return axios
     .post(LOGIN_ENDPOINT, apiParams)
     .then(({ status, data } = {}) => {
