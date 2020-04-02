@@ -8,7 +8,6 @@ export async function createUser(request, response) {
       username: username,
       password,
     });
-    console.log('created', userObj);
     return response.status(200).json({ data: userObj.toObject() });
   } catch (err) {
     return response.status(400).json({ error: err.message });
@@ -25,13 +24,10 @@ export async function findOrCreateVisitHistoryAndActivateUser(
         user: userId,
         isActive: true,
       });
-      console.log('created vh', vh);
       return vh;
     }
-    console.log('vh exists', visitHistory);
 
     const vhup = await visitHistory.update({ isActive: true });
-    console.log('vh exists', vhup);
     return vhup;
   } catch (err) {
     console.log(err);

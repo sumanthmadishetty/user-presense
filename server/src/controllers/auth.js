@@ -5,13 +5,22 @@ export function login(req, res, next) {
   passport.authenticate('login', async (err, user, info) => {
     try {
       if (err || !user) {
-        res.status(401).json({ error: 'username not found' });
+        return res
+          .status(401)
+          .json({ error: 'Username or password is incorrect' });
       }
       req.login(user, { session: false }, async (error) => {
         if (error) return next(error);
         const body = { _id: user._id, username: user.username };
         const { success, token } = await generateJWTToken(body);
-        return res.json({ success, token }).status(200);
+        res.cookie('token', token, {
+          httpOnly: false,
+        });
+        return res.json({
+          success,
+          token,
+          user: user && user.toJSON(),
+        });
       });
     } catch (error) {
       return next(error);

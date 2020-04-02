@@ -30,6 +30,12 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+userSchema.methods.toJSON = function () {
+  var obj = this.toObject();
+  delete obj.password;
+  return obj;
+};
+
 userSchema.methods.isValidPassword = async function (password) {
   const user = this;
   const compare = await bcrypt.compare(password, user.password);

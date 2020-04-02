@@ -52,5 +52,3 @@ export default function Login(props) {
     });
   }
 }
-
-// .col-sm-12 .col-md-6 .offset-md-3
