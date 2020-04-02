@@ -8,6 +8,7 @@ export async function createUser(request, response) {
       username: username,
       password,
     });
+    console.log('created', userObj);
     return response.status(200).json({ data: userObj.toObject() });
   } catch (err) {
     return response.status(400).json({ error: err.message });
