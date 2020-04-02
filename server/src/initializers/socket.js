@@ -1,6 +1,4 @@
-import { Server, createServer } from 'http';
 import { verifyJWT } from '../helpers/jwt';
-import { findOrCreateVisitHistoryAndActivateUser } from '../controllers/user';
 import {
   findAndActivateVisitHistoryForUser,
   deactiveUser,
@@ -12,18 +10,18 @@ import {
 export default async function initializeSocket(server) {
   //   const socketIo = require('socket.io');
   try {
-    var cookie = require('cookie');
-
     var io = require('socket.io').listen(server);
     io.use((socket, next) => {
       try {
-        const { token } = cookie.parse(socket.request.headers.cookie);
-        const { success, userDetails } = verifyJWT(token);
+        const { success, userDetails } = verifyJWT(
+          socket.handshake.query.token,
+        );
         if (success) {
           socket._userDetails = userDetails;
           next();
         }
       } catch (err) {
+        console.log(err, 'errorrr');
         next(new Error('Authentication error'));
       }
       //   if (socket.request.headers.cookie) return next();

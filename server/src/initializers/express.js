@@ -73,7 +73,8 @@ function loadUnAuthenticatedRoutes(app) {
 
 function loadAuthenticatedRoutes(app) {
   app.use('/users', routes.user);
-  app.get('/test-auth', async (req, res) => {
-    return res.json(req.user.toObject());
+  app.use('/visit-histories', routes.visitHistory);
+  app.get('/user/verify', async (req, res) => {
+    return res.json(req.user.toJSON());
   });
 }
