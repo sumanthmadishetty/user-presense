@@ -1,10 +1,20 @@
 import React, { useContext, useState } from 'react';
-import { AppBar, Typography, Button, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { AppBar, Typography, IconButton, MenuItem } from '@material-ui/core';
 import { UserDataContext } from 'context/UserDataContext';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import PropTypes from 'prop-types';
+import MenuList from './MenuList';
+
+Layout.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)])
+};
+
+Layout.defaultProps = {
+  children: []
+};
 
 export default function Layout({ children }) {
-  const { userData, handleLogout } = useContext(UserDataContext);
+  const { userData } = useContext(UserDataContext);
 
   return (
     <>
@@ -22,7 +32,7 @@ export default function Layout({ children }) {
   );
 }
 
-function TopbarMenu(props) {
+function TopbarMenu() {
   const [open, setOpen] = useState(false);
   const { handleLogout } = useContext(UserDataContext);
 
@@ -34,24 +44,9 @@ function TopbarMenu(props) {
       <IconButton size="medium" onClick={toggleMenu} color="inherit">
         <AccountCircle />
       </IconButton>
-      <Menu
-        id="menu-appbar"
-        getContentAnchorEl={null}
-        // anchorEl={'anchorEl'}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
-        }}
-        keepMounted
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
-        }}
-        open={open}
-        onClose={toggleMenu}
-      >
+      <MenuList open={open} toggleMenu={toggleMenu}>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
-      </Menu>
+      </MenuList>
     </>
   );
 }

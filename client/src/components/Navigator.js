@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
-import { Router, Redirect, navigate } from '@reach/router';
+import { Router, Redirect } from '@reach/router';
 import { Login, Register } from 'containers';
 import { NotFound } from 'components';
 import Home from 'containers/Home';
 import { UserDataContext } from 'context/UserDataContext';
+import PropTypes from 'prop-types';
 import Layout from './Layout';
 
-export default function Navigator(props) {
+export default function Navigator() {
   return (
     <div className="navigator">
       <Router id="router">
@@ -21,8 +22,13 @@ export default function Navigator(props) {
   );
 }
 
+ProtectedRoute.propTypes = {
+  component: PropTypes.oneOfType([PropTypes.func, PropTypes.arrayOf(PropTypes.node)]).isRequired,
+  path: PropTypes.string.isRequired
+};
+
 function ProtectedRoute({ component: Component, path }) {
-  const { isAuthenticated, displayFlash } = useContext(UserDataContext);
+  const { isAuthenticated } = useContext(UserDataContext);
   if (isAuthenticated) {
     return <Component path="path" />;
   }

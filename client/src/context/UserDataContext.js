@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Snackbar, SnackbarContent, Button } from '@material-ui/core';
-import { verifyUser } from 'actions/userActions';
+import { verifyUser } from 'actions/API';
 import Cookies from 'js-cookie';
 import { navigate } from '@reach/router';
 
@@ -20,7 +20,7 @@ class UserData extends Component {
   };
 
   componentDidMount() {
-    if (Cookies.get('token')) {
+    if (localStorage.getItem('token')) {
       verifyUser().then(({ success, data }) => {
         if (success && data._id) {
           return this.setState({ isAuthenticated: true, userData: data, isLoaded: true });
@@ -43,9 +43,13 @@ class UserData extends Component {
   }
 
   handleLogout = () => {
-    Cookies.remove('token');
+    localStorage.removeItem('token');
     this.setState(
-      { userData: {}, isAuthenticated: false, flashMessage: { message: 'Successfully loggedout' } },
+      {
+        userData: {},
+        isAuthenticated: false,
+        flashMessage: { message: 'Successfully loggedout' }
+      },
       () => navigate('/login')
     );
   };
