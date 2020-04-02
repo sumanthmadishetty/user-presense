@@ -1,15 +1,17 @@
 import React, { Suspense } from 'react';
 import { Navigator, ErrorBoundary } from 'components';
 import './App.css';
+import UserData from 'context/UserDataContext';
 
 function App() {
-  console.log('asdasd', Navigator);
   return (
     <div className="App">
       <ErrorBoundary>
-        <Suspense fallback={() => <div>Loadinggg....</div>}>
-          <Navigator />
-        </Suspense>
+        <UserData>
+          <Suspense fallback={<div>Loadinggg....</div>}>
+            <Navigator />
+          </Suspense>
+        </UserData>
       </ErrorBoundary>
     </div>
   );
