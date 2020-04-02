@@ -36,10 +36,11 @@ export default function (app) {
   loadUnAuthenticatedRoutes(app);
 
   // Passport Authentication as middleware
+
   app.use(
     passport.authenticate('jwt', {
       session: false,
-      failureRedirect: '/401',
+      // failureRedirect: '/401',
     }),
   );
 
