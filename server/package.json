@@ -7,6 +7,8 @@
     "node": ">=8.10.0"
   },
   "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/runtime": "^7.9.2",
     "bcrypt": "^4.0.1",
     "body-parser": "^1.18.3",
     "chalk": "^3.0.0",
@@ -26,12 +28,14 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
+    "pm2": "^4.2.3",
     "prettier": "^2.0.2",
     "socket.io": "^2.3.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.9.0",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
     "eslint": "^6.8.0",
@@ -40,7 +44,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node src/app.js"
+    "start": "nodemon --exec babel-node src/app.js",
+    "build": "babel src -d dist",
+    "pm2-start": "pm2 start ./dist/app.js"
   },
   "author": "",
   "license": "ISC"
