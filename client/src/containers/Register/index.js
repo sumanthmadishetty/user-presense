@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import PageCenterWrapper from 'components/PageCenterWrapper';
 import PropTypes from 'prop-types';
-import { Button } from '@material-ui/core';
+import { Button, CircularProgress, Typography } from '@material-ui/core';
 import { Link, navigate, Redirect } from '@reach/router';
 import { registerUser } from 'actions/API';
 import useInput from 'customHooks/useInput';
@@ -13,7 +13,8 @@ Register.propTypes = {
 
 export default function Register({ path }) {
   const [UserNameInput, username] = useInput({
-    label: 'Username'
+    label: 'Username',
+    helperText: 'Usename is case senstive'
   });
   const [PasswordInput, password] = useInput({
     label: 'Password',
@@ -25,6 +26,7 @@ export default function Register({ path }) {
     callBackOnChange: handleChangeConfirmPassword
   });
   const [isValidating, setValidating] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
   const { displayFlash, isAuthenticated } = useContext(UserDataContext);
 
   if (isAuthenticated) {
@@ -33,7 +35,7 @@ export default function Register({ path }) {
 
   return (
     <PageCenterWrapper>
-      <span>Please Register here</span>
+      <Typography variant="h5">Please Register here</Typography>
       <div className="loginInputsWrapper">
         <form onSubmit={handleSubmitForm}>
           {UserNameInput}
@@ -41,12 +43,13 @@ export default function Register({ path }) {
           {ConfirmPassword}
           <Button
             onClick={handleSubmitForm}
+            disabled={isSubmitting || !(password && username && confirmPassword)}
             type="submit"
             style={{ marginTop: '20px' }}
             variant="contained"
             color="primary"
           >
-            Register
+            {isSubmitting ? <CircularProgress size={30} /> : 'Register'}
           </Button>
         </form>
       </div>
@@ -65,9 +68,11 @@ export default function Register({ path }) {
   }
 
   function handleSubmitForm(e) {
+    setSubmitting(true);
     e.preventDefault();
     if (password !== confirmPassword) {
       setErrorForConfirmPassword('Passwords doesnot match');
+      setSubmitting(false);
       return setValidating(true);
     }
 
@@ -76,7 +81,7 @@ export default function Register({ path }) {
         displayFlash({ message: ' User created successfully, Please login to continue ' });
         return navigate('/login');
       }
-
+      setSubmitting(false);
       return displayFlash({ message: error });
     });
   }

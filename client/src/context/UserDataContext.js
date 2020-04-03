@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Snackbar, SnackbarContent, Button } from '@material-ui/core';
 import { verifyUser } from 'actions/API';
-import Cookies from 'js-cookie';
 import { navigate } from '@reach/router';
 
 export const UserDataContext = React.createContext();

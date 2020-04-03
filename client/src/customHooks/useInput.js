@@ -6,14 +6,15 @@ export default function useInput({
   id,
   label,
   type = 'text',
+  helperText = '',
   callBackOnChange
 }) {
   const [value, setValue] = useState(defaultValue);
-  const [error, setErrorValue] = useState('');
+  const [error, setErrorValue] = useState(helperText);
 
   const TextInput = (
     <TextField
-      error={!!error}
+      error={!!(error && error !== helperText)}
       label={label}
       helperText={error}
       type={type}
