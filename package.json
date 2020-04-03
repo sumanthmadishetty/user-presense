@@ -1,0 +1,23 @@
+{
+  "name": "user-presence",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm start",
+    "server:prod": "cd server && npm run build && npm run pm2-start",
+    "client": "cd client && npm start",
+    "client:prod": "cd client && npm run build",
+    "prod": "npm run client:prod && npm run server:prod",
+    "postinstall": "sh ./postinstall.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@git.techsophy.com:28/pwc/tp_marketing.git"
+  },
+  "keywords": [],
+  "author": "",
+  "dependencies": {
+    "concurrently": "^5.0.0"
+  }
+}

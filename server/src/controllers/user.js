@@ -30,7 +30,6 @@ export async function findOrCreateVisitHistoryAndActivateUser(
     const vhup = await visitHistory.update({ isActive: true });
     return vhup;
   } catch (err) {
-    console.log(err);
     return null;
   }
 }
