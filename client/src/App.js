@@ -6,15 +6,17 @@ import SuspenseFallback from 'components/SuspenseFallback';
 
 function App() {
   return (
-    <div className="App">
-      <ErrorBoundary>
-        <UserData>
-          <Suspense fallback={<SuspenseFallback />}>
-            <Navigator />
-          </Suspense>
-        </UserData>
-      </ErrorBoundary>
-    </div>
+    <>
+      <div className="App">
+        <ErrorBoundary>
+          <UserData>
+            <Suspense fallback={<SuspenseFallback />}>
+              <Navigator />
+            </Suspense>
+          </UserData>
+        </ErrorBoundary>
+      </div>
+    </>
   );
 }
 

@@ -22,7 +22,11 @@ export default function Navigator() {
 }
 
 ProtectedRoute.propTypes = {
-  component: PropTypes.oneOfType([PropTypes.func, PropTypes.arrayOf(PropTypes.node)]).isRequired,
+  component: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.func,
+    PropTypes.arrayOf(PropTypes.node)
+  ]).isRequired,
   path: PropTypes.string.isRequired
 };
 
