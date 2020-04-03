@@ -6,6 +6,7 @@ import useInput from 'customHooks/useInput';
 import { UserDataContext } from 'context/UserDataContext';
 import { login } from 'actions/API';
 import PropTypes from 'prop-types';
+import useCaptcha from 'customHooks/useCaptcha';
 
 Login.propTypes = {
   path: PropTypes.string.isRequired
@@ -23,6 +24,7 @@ export default function Login({ path }) {
   });
   const { displayFlash, handleUserLogin, isAuthenticated } = useContext(UserDataContext);
   const [isSubmitting, setSubmitting] = useState(false);
+  const [Captcha, isCaptchaValid] = useCaptcha();
 
   if (isAuthenticated) {
     return <Redirect from={path} to="/" noThrow />;
@@ -35,8 +37,9 @@ export default function Login({ path }) {
         <form onSubmit={handleLogin}>
           {UserNameInput}
           {PasswordInput}
+          {Captcha}
           <Button
-            disabled={isSubmitting || !(password && username)}
+            disabled={!isCaptchaValid || (isSubmitting || !(password && username))}
             type="submit"
             style={{ marginTop: '20px' }}
             variant="contained"

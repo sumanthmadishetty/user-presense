@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Tooltip, IconButton, MenuItem, Typography } from '@material-ui/core';
 import MenuList from 'components/MenuList';
 
+const colors = ['#63782F', '#FEAB9E', '#B7DBF0', '#00A3BB', '#188038', '#DC077F'];
+
 export default function ActiveUsers({ usersList }) {
   if (!(usersList && usersList.length)) {
     return (
@@ -61,12 +63,12 @@ function CustomFab1({ extraUsers }) {
   return null;
 }
 
-function CustomFab({ index, name = '' }) {
-  const colors = ['#63782F', '#FEAB9E', '#B7DBF0', '#00A3BB', '#188038', '#DC077F'];
+function CustomFab({ name = '' }) {
+  const color = colors[Math.floor(Math.random() * colors.length)];
 
   return (
     <Tooltip placement="top" title={name}>
-      <div className="customFab" style={{ backgroundColor: colors[index % colors.length] }}>
+      <div className="customFab" style={{ backgroundColor: color }}>
         <div>
           <h1 style={{ textTransform: 'uppercase' }}>{name[0]}</h1>
         </div>
