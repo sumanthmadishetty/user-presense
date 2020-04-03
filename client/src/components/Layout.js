@@ -5,6 +5,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import PropTypes from 'prop-types';
 import MenuList from './MenuList';
 
+const GITHUB_SOURCE = 'https://github.com/sumanthmadishetty/user-presense';
+const PORTFOLIO_LINK = 'https://sumanth.tech';
+
 Layout.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)])
 };
@@ -35,8 +38,10 @@ export default function Layout({ children }) {
 function TopbarMenu() {
   const [open, setOpen] = useState(false);
   const { handleLogout } = useContext(UserDataContext);
+  const [anchorEl, setAnchorEl] = useState();
 
-  function toggleMenu() {
+  function toggleMenu(e) {
+    setAnchorEl(e.currentTarget);
     setOpen(o => !o);
   }
   return (
@@ -44,8 +49,26 @@ function TopbarMenu() {
       <IconButton size="medium" onClick={toggleMenu} color="inherit">
         <AccountCircle />
       </IconButton>
-      <MenuList open={open} toggleMenu={toggleMenu}>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      <MenuList anchorEl={anchorEl} open={open} toggleMenu={toggleMenu}>
+        <MenuItem>
+          <a className="noTextDec" href={GITHUB_SOURCE} rel="noopener noreferrer" target="_blank">
+            <Typography variant="subtitle2" color="secondary">
+              Source @ Github
+            </Typography>
+          </a>
+        </MenuItem>
+        <MenuItem target="_blank">
+          <a className="noTextDec" href={PORTFOLIO_LINK} rel="noopener noreferrer" target="_blank">
+            <Typography variant="subtitle2" color="secondary">
+              sumanth.tech
+            </Typography>
+          </a>
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          <Typography variant="subtitle1" color="primary">
+            Logout
+          </Typography>
+        </MenuItem>
       </MenuList>
     </>
   );

@@ -39,8 +39,23 @@
 
 html,
 body,
-#root,
-.App,
+#root {
+  height: calc(100%);
+  overflow: auto;
+}
+
+.noTextDec {
+  text-decoration: none;
+}
+
+.App {
+  height: calc(100%);
+}
+
+.footer {
+  height: 50px;
+}
+
 .navigator,
 .navigator > div {
   height: 100%;
@@ -95,9 +110,9 @@ body,
   background-color: #757575;
 }
 
-#router > div {
+/* #router > div {
   height: 100%;
-}
+} */
 
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);

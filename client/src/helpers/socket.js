@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import socketIOClient from 'socket.io-client';
 
 export default function initializeSocket() {

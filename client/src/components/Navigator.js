@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import { Router, Redirect } from '@reach/router';
-import { Login, Register } from 'containers';
+import { Login, Register, Home } from 'containers';
 import { NotFound } from 'components';
-import Home from 'containers/Home';
 import { UserDataContext } from 'context/UserDataContext';
 import PropTypes from 'prop-types';
 import Layout from './Layout';
@@ -23,7 +22,11 @@ export default function Navigator() {
 }
 
 ProtectedRoute.propTypes = {
-  component: PropTypes.oneOfType([PropTypes.func, PropTypes.arrayOf(PropTypes.node)]).isRequired,
+  component: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.func,
+    PropTypes.arrayOf(PropTypes.node)
+  ]).isRequired,
   path: PropTypes.string.isRequired
 };
 
