@@ -29,29 +29,32 @@ export default function VisitedUsersList({ activeUsers }) {
   }, [activeUsers, displayFlash]);
 
   function renderTableRow({ _id, user = {}, isActive, lastActive } = {}) {
-    return (
-      <TableRow key={_id}>
-        <TableCell>
-          <Typography>
-            {user._id === currentUserId ? (
-              <>
-                <span style={{ marginRight: '10px' }}>{`${user.username}`}</span>
-                <Typography variant="caption" color="primary">
-                  (Its you)
-                </Typography>
-              </>
-            ) : (
-              `${user.username}`
-            )}
-          </Typography>{' '}
-        </TableCell>
-        <TableCell>
-          <Typography color={isActive ? 'primary' : 'secondary'}>
-            {isActive ? 'Active Now' : getFormattedTime(lastActive)}
-          </Typography>
-        </TableCell>
-      </TableRow>
-    );
+    if (user && user._id) {
+      return (
+        <TableRow key={_id}>
+          <TableCell>
+            <Typography>
+              {user._id === currentUserId ? (
+                <>
+                  <span style={{ marginRight: '10px' }}>{`${user.username}`}</span>
+                  <Typography variant="caption" color="primary">
+                    (Its you)
+                  </Typography>
+                </>
+              ) : (
+                `${user.username}`
+              )}
+            </Typography>{' '}
+          </TableCell>
+          <TableCell>
+            <Typography color={isActive ? 'primary' : 'secondary'}>
+              {isActive ? 'Active Now' : getFormattedTime(lastActive)}
+            </Typography>
+          </TableCell>
+        </TableRow>
+      );
+    }
+    return null;
   }
 
   return (
