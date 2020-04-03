@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import { getVisitHistories } from 'actions/API';
 import { UserDataContext } from 'context/UserDataContext';
+import { getFormattedTime } from 'helpers/date';
 
 export default function VisitedUsersList({ activeUsers }) {
   const [usersData, setusersData] = useState([]);
@@ -46,7 +47,7 @@ export default function VisitedUsersList({ activeUsers }) {
         </TableCell>
         <TableCell>
           <Typography color={isActive ? 'primary' : 'secondary'}>
-            {isActive ? 'Active Now' : lastActive}
+            {isActive ? 'Active Now' : getFormattedTime(lastActive)}
           </Typography>
         </TableCell>
       </TableRow>
