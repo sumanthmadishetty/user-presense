@@ -6,13 +6,9 @@ const REGISTER_END_POINT = `${process.env.REACT_APP_SERVER_URL}user/register`;
 const LOGIN_ENDPOINT = `${process.env.REACT_APP_SERVER_URL}user/login`;
 const USERS_LIST = `${process.env.REACT_APP_SERVER_URL}users`;
 
-const config = {
-  headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-};
-
 export function verifyUser() {
   return axios
-    .get(VERIFY, { ...config })
+    .get(VERIFY, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
     .then(({ status, data } = {}) => {
       if (status === 200 && data) {
         return { success: true, data };
@@ -26,7 +22,7 @@ export function verifyUser() {
 
 export function getVisitHistories() {
   return axios
-    .get(VISIT_HISTORY, { ...config })
+    .get(VISIT_HISTORY, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
     .then(({ status, data } = {}) => {
       if (status === 200 && data) {
         return { success: true, data };
@@ -69,7 +65,7 @@ export function login(apiParams) {
 
 export function fetchUserDetails() {
   return axios
-    .get(USERS_LIST, { ...config })
+    .get(USERS_LIST, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
     .then(({ status, data } = {}) => {
       if (status === 200 && data) {
         return { success: true, data };

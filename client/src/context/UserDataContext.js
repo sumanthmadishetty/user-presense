@@ -68,7 +68,7 @@ class UserData extends Component {
 
   handleUserLogin = userData => {
     if (userData && userData._id) {
-      this.setState({ userData, isAuthenticated: true });
+      this.setState({ userData, isAuthenticated: true }, () => navigate('/'));
     }
   };
 

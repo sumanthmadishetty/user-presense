@@ -55,8 +55,7 @@ export default function Login({ path }) {
     login({ username, password }).then(({ success, data, error }) => {
       if (success) {
         localStorage.setItem('token', data.token);
-        handleUserLogin(data.user);
-        return navigate('/');
+        return handleUserLogin(data.user);
       }
       displayFlash({ message: error });
     });
