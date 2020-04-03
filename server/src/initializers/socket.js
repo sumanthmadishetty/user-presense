@@ -21,17 +21,15 @@ export default async function initializeSocket(server) {
           next();
         }
       } catch (err) {
-        console.log(err, 'errorrr');
         next(new Error('Authentication error'));
       }
       //   if (socket.request.headers.cookie) return next();
     });
     io.on('connection', async function (socket) {
-      console.log('Socket established for user', socket._userDetails);
       const { success } = await findAndActivateVisitHistoryForUser(
         socket._userDetails._id,
       );
-      console.log(success, 'succ sockey');
+
       if (success) {
         await sendActiveUsersToClient(socket);
         await broadCastAllActiveUsers(socket);
@@ -40,13 +38,9 @@ export default async function initializeSocket(server) {
         const { success } = await deactiveUser(
           socket._userDetails._id,
         );
-        console.log('discc', success);
+
         if (success) {
           await broadCastAllActiveUsers(socket);
-          console.log(
-            'Connection terminated for user',
-            socket._userDetails,
-          );
         }
       });
     });

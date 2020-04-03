@@ -1,7 +1,6 @@
 import VisitHistory from '../visitHistory';
 
 export async function findAndActivateVisitHistoryForUser(userId) {
-  console.log(userId, 'userID');
   try {
     const visitHistory = await VisitHistory.findOne({ user: userId });
     if (!visitHistory) {
@@ -12,7 +11,6 @@ export async function findAndActivateVisitHistoryForUser(userId) {
 
       return { success: true, visitHistory: vh };
     }
-    // console.log('vh exists', visitHistory);
 
     await visitHistory.updateOne({
       isActive: true,
@@ -35,7 +33,6 @@ export async function deactiveUser(userId) {
       isActive: false,
       lastActive: Date.now(),
     });
-    console.log(visitHistory, 'deacti');
     return { success: true, visitHistory };
   } catch (err) {
     console.error(err);
@@ -53,7 +50,6 @@ export async function allActiveUsers() {
       .exec();
     return { success: true, activeUsers: activeHistorys };
   } catch (err) {
-    console.log('error');
     return { success: false };
   }
 }

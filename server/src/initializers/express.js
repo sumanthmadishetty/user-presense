@@ -68,13 +68,13 @@ function loadUnAuthenticatedRoutes(app) {
   app.get('/', async (req, res) => {
     return res.send('Welcome to express');
   });
-  app.use('/user', routes.auth);
+  app.use('/auth', routes.auth);
 }
 
 function loadAuthenticatedRoutes(app) {
   app.use('/users', routes.user);
   app.use('/visit-histories', routes.visitHistory);
-  app.get('/user/verify', async (req, res) => {
+  app.get('/auth/verify', async (req, res) => {
     return res.json(req.user.toJSON());
   });
 }
