@@ -6,6 +6,7 @@ import { Link, navigate, Redirect } from '@reach/router';
 import { registerUser } from 'actions/API';
 import useInput from 'customHooks/useInput';
 import { UserDataContext } from 'context/UserDataContext';
+import useCaptcha from 'customHooks/useCaptcha';
 
 Register.propTypes = {
   path: PropTypes.string.isRequired
@@ -28,6 +29,7 @@ export default function Register({ path }) {
   const [isValidating, setValidating] = useState(false);
   const [isSubmitting, setSubmitting] = useState(false);
   const { displayFlash, isAuthenticated } = useContext(UserDataContext);
+  const [Captcha, isCaptchaValid] = useCaptcha();
 
   if (isAuthenticated) {
     return <Redirect from={path} to="/" noThrow />;
@@ -41,9 +43,12 @@ export default function Register({ path }) {
           {UserNameInput}
           {PasswordInput}
           {ConfirmPassword}
+          {Captcha}
           <Button
             onClick={handleSubmitForm}
-            disabled={isSubmitting || !(password && username && confirmPassword)}
+            disabled={
+              !isCaptchaValid || (isSubmitting || !(password && username && confirmPassword))
+            }
             type="submit"
             style={{ marginTop: '20px' }}
             variant="contained"
