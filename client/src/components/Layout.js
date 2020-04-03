@@ -50,11 +50,6 @@ function TopbarMenu() {
         <AccountCircle />
       </IconButton>
       <MenuList anchorEl={anchorEl} open={open} toggleMenu={toggleMenu}>
-        <MenuItem onClick={handleLogout}>
-          <Typography variant="subtitle1" color="primary">
-            Logout
-          </Typography>
-        </MenuItem>
         <MenuItem>
           <a className="noTextDec" href={GITHUB_SOURCE} rel="noopener noreferrer" target="_blank">
             <Typography variant="subtitle2" color="secondary">
@@ -68,6 +63,11 @@ function TopbarMenu() {
               sumanth.tech
             </Typography>
           </a>
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          <Typography variant="subtitle1" color="primary">
+            Logout
+          </Typography>
         </MenuItem>
       </MenuList>
     </>
